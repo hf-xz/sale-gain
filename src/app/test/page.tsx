@@ -1,8 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { getStores } from "@/services/storeService";
 
 export default async function Page() {
-  const supabase = await createClient();
-  const { data: stores } = await supabase.from("store").select();
+  const stores = await getStores();
 
   return <pre>{JSON.stringify(stores)}</pre>;
 }
