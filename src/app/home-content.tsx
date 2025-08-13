@@ -68,11 +68,11 @@ export async function HomeContent() {
       {/* 门店概览 */}
       <SalesOverviewCards stores={storesWithCount} />
 
-      {/* 数据记录 */}
-      <SalesRecordsCard />
-
       {/* 快速操作 */}
       <QuickActionsCard />
+
+      {/* 数据记录 */}
+      <SalesRecordsCard />
     </div>
   );
 }

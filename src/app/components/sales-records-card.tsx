@@ -60,11 +60,11 @@ export function SalesRecordsCard() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col flex-wrap gap-4 md:flex-row">
-          {mockRecords.slice(0, 5).map((record) => (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {mockRecords.slice(0, 10).map((record) => (
             <div
               key={record.id}
-              className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors min-w-[200px]"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
             >
               <div className="flex-1">
                 <div className="mb-1">

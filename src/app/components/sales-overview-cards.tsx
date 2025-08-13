@@ -30,7 +30,6 @@ export function SalesOverviewCards({ stores }: SalesOverviewCardsProps) {
     <div className="space-y-6">
       {/* 门店概览 */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">门店概览</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {stores.map((store) => (
             <Card

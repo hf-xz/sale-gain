@@ -1,16 +1,10 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function QuickActionsCard() {
   const quickActions = [
     {
       icon: "📝",
-      title: "录入指标数据",
+      title: "录入数据",
       description: "为门店指标添加新的数据记录",
       color:
         "bg-blue-50 hover:bg-blue-100 dark:bg-blue-900 dark:hover:bg-blue-800",
@@ -35,7 +29,6 @@ export function QuickActionsCard() {
     <Card>
       <CardHeader>
         <CardTitle>快速操作</CardTitle>
-        <CardDescription>常用功能快捷入口，提高工作效率</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-3 md:flex-row">
