@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function SalesRecordsCard() {
   // 模拟最新记录数据 - 实际使用时将从服务获取
@@ -62,18 +55,16 @@ export function SalesRecordsCard() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>最新指标记录</CardTitle>
-            <CardDescription>各门店最新数据录入情况</CardDescription>
+            <CardTitle>最近记录</CardTitle>
           </div>
-          <Badge variant="secondary">{mockRecords.length} 条记录</Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {mockRecords.slice(0, 3).map((record) => (
+        <div className="flex flex-col flex-wrap gap-4 md:flex-row">
+          {mockRecords.slice(0, 5).map((record) => (
             <div
               key={record.id}
-              className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors min-w-[200px]"
             >
               <div className="flex-1">
                 <div className="mb-1">

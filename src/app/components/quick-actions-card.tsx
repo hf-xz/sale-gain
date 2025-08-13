@@ -38,7 +38,7 @@ export function QuickActionsCard() {
         <CardDescription>常用功能快捷入口，提高工作效率</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-3">
+        <div className="flex flex-col gap-3 md:flex-row">
           {quickActions.map((action, index) => (
             <button
               key={index}
