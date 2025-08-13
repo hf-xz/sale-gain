@@ -1,10 +1,12 @@
 import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { createStore } from "@/services";
@@ -18,13 +20,17 @@ export async function AddStoreButton({
     "use server";
 
     const storeName = formData.get("storeName");
+    const description = formData.get("description");
 
     if (typeof storeName !== "string" || !storeName.trim()) {
       throw new Error("Invalid store name");
     }
 
     try {
-      await createStore({ name: storeName.trim() });
+      await createStore({
+        name: storeName.trim(),
+        description: description?.toString().trim() || undefined,
+      });
       revalidatePath("/"); // 根据需要调整路径
     } catch (error) {
       console.error("Failed to create store:", error);
@@ -34,19 +40,29 @@ export async function AddStoreButton({
 
   return (
     <Dialog>
-      <Button {...props}>{text}</Button>
+      <DialogTrigger asChild>
+        <Button {...props}>{text}</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a New Store</DialogTitle>
+          <DialogTitle>添加门店</DialogTitle>
         </DialogHeader>
-        <form action={handleSubmit}>
-          <div>
-            <Input name="storeName" placeholder="Enter store name" required />
+
+        <form id="add-store-form" action={handleSubmit}>
+          <div className="flex flex-col gap-4">
+            <Input name="storeName" placeholder="输入门店名称" required />
+            <Input name="description" placeholder="输入门店描述（可选）" />
           </div>
-          <DialogFooter>
-            <Button type="submit">Create</Button>
-          </DialogFooter>
         </form>
+
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">取消</Button>
+          </DialogClose>
+          <Button type="submit" form={"add-store-form"}>
+            添加
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
