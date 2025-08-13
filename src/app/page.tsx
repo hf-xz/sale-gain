@@ -1,5 +1,6 @@
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { HomeContent } from "./home-content";
 import Link from "next/link";
 
 export default function Home() {
@@ -15,7 +16,9 @@ export default function Home() {
             <AuthButton />
           </div>
         </nav>
-        <main className="flex-1 flex flex-col gap-6 px-4 w-full"></main>
+        <main className="flex-1 flex flex-col gap-6 px-4 w-full">
+          <HomeContent />
+        </main>
       </div>
     </main>
   );
