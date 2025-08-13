@@ -2,9 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   SalesOverviewCards,
   SalesRecordsCard,
-  ProfitAnalysisCard,
   QuickActionsCard,
-  SystemStatusCard,
 } from "./components";
 
 export async function HomeContent() {
@@ -29,23 +27,15 @@ export async function HomeContent() {
   }
 
   return (
-    <div className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-2">销售利润管理系统</h1>
-        <p className="text-lg text-muted-foreground">欢迎回来，{user.email}</p>
-      </div>
-
+    <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto p-4">
+      {/* 门店概览 */}
       <SalesOverviewCards />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SalesRecordsCard />
-        <ProfitAnalysisCard />
-      </div>
+      {/* 数据记录 */}
+      <SalesRecordsCard />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <QuickActionsCard />
-        <SystemStatusCard />
-      </div>
+      {/* 快速操作 */}
+      <QuickActionsCard />
     </div>
   );
 }
