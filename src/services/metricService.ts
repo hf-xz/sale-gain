@@ -5,11 +5,13 @@ import type { Metric, CreateMetric, UpdateMetric } from "./types";
  * Metric 服务 - 包含所有与 metric 表相关的数据库操作
  */
 
+const TABLE_NAME = "metric";
+
 // 获取所有指标
 export async function getAllMetrics(): Promise<Metric[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .select("*")
     .order("display_order", { ascending: true });
 
@@ -25,7 +27,7 @@ export async function getAllMetrics(): Promise<Metric[]> {
 export async function getMetricsByStoreId(storeId: number): Promise<Metric[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .select("*")
     .eq("store_id", storeId)
     .eq("is_active", true)
@@ -46,7 +48,7 @@ export async function getMetricsByType(
 ): Promise<Metric[]> {
   const supabase = await createClient();
   let query = supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .select("*")
     .eq("type", type)
     .eq("is_active", true);
@@ -71,7 +73,7 @@ export async function getMetricsByType(
 export async function getMetricById(id: number): Promise<Metric | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .select("*")
     .eq("id", id)
     .single();
@@ -91,7 +93,7 @@ export async function getMetricById(id: number): Promise<Metric | null> {
 export async function createMetric(metric: CreateMetric): Promise<Metric> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .insert(metric)
     .select()
     .single();
@@ -111,7 +113,7 @@ export async function updateMetric(
 ): Promise<Metric> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .update(updates)
     .eq("id", id)
     .select()
@@ -129,7 +131,7 @@ export async function updateMetric(
 export async function deleteMetric(id: number): Promise<void> {
   const supabase = await createClient();
   const { error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .update({ is_active: false })
     .eq("id", id);
 
@@ -142,7 +144,7 @@ export async function deleteMetric(id: number): Promise<void> {
 // 永久删除指标
 export async function permanentDeleteMetric(id: number): Promise<void> {
   const supabase = await createClient();
-  const { error } = await supabase.from("metric").delete().eq("id", id);
+  const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
 
   if (error) {
     console.error("Error permanently deleting metric:", error);
@@ -157,7 +159,7 @@ export async function updateMetricDisplayOrder(
 ): Promise<void> {
   const supabase = await createClient();
   const { error } = await supabase
-    .from("metric")
+    .from(TABLE_NAME)
     .update({ display_order: displayOrder })
     .eq("id", id);
 
@@ -175,7 +177,7 @@ export async function batchUpdateMetricDisplayOrder(
 
   const promises = updates.map((update) =>
     supabase
-      .from("metric")
+      .from(TABLE_NAME)
       .update({ display_order: update.display_order })
       .eq("id", update.id)
   );

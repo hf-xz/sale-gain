@@ -2,14 +2,16 @@ import { createClient } from "@/lib/supabase/server";
 import type { Record, CreateRecord, UpdateRecord } from "./types";
 
 /**
- * Record 服务 - 包含所有与 record_new 表相关的数据库操作
+ * Record 服务 - 包含所有与 record 表相关的数据库操作
  */
+
+const TABLE_NAME = "record";
 
 // 获取所有记录
 export async function getAllRecords(): Promise<Record[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .order("date", { ascending: false });
 
@@ -27,7 +29,7 @@ export async function getRecordsByMetricId(
 ): Promise<Record[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .eq("metric_id", metricId)
     .order("date", { ascending: false });
@@ -48,7 +50,7 @@ export async function getRecordsByDateRange(
 ): Promise<Record[]> {
   const supabase = await createClient();
   let query = supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .gte("date", startDate)
     .lte("date", endDate);
@@ -74,7 +76,7 @@ export async function getRecordByMetricAndDate(
 ): Promise<Record | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .eq("metric_id", metricId)
     .eq("date", date)
@@ -95,7 +97,7 @@ export async function getRecordByMetricAndDate(
 export async function getRecordById(id: number): Promise<Record | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .eq("id", id)
     .single();
@@ -115,7 +117,7 @@ export async function getRecordById(id: number): Promise<Record | null> {
 export async function createRecord(record: CreateRecord): Promise<Record> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .insert(record)
     .select()
     .single();
@@ -134,7 +136,7 @@ export async function createRecords(
 ): Promise<Record[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .insert(records)
     .select();
 
@@ -153,7 +155,7 @@ export async function updateRecord(
 ): Promise<Record> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .update(updates)
     .eq("id", id)
     .select()
@@ -190,7 +192,7 @@ export async function upsertRecord(record: CreateRecord): Promise<Record> {
 // 删除记录
 export async function deleteRecord(id: number): Promise<void> {
   const supabase = await createClient();
-  const { error } = await supabase.from("record_new").delete().eq("id", id);
+  const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting record:", error);
@@ -202,7 +204,7 @@ export async function deleteRecord(id: number): Promise<void> {
 export async function deleteRecordsByMetricId(metricId: number): Promise<void> {
   const supabase = await createClient();
   const { error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .delete()
     .eq("metric_id", metricId);
 
@@ -218,7 +220,7 @@ export async function getLatestRecordByMetricId(
 ): Promise<Record | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("*")
     .eq("metric_id", metricId)
     .order("date", { ascending: false })
@@ -246,7 +248,7 @@ export async function getRecordStats(metricId: number): Promise<{
 }> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("record_new")
+    .from(TABLE_NAME)
     .select("value")
     .eq("metric_id", metricId);
 

@@ -5,11 +5,13 @@ import type { Store, CreateStore, UpdateStore } from "./types";
  * Store 服务 - 包含所有与 store 表相关的数据库操作
  */
 
+const TABLE_NAME = "store";
+
 // 获取所有门店
 export async function getAllStores(): Promise<Store[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("store")
+    .from(TABLE_NAME)
     .select("*")
     .order("created_at", { ascending: false });
 
@@ -25,7 +27,7 @@ export async function getAllStores(): Promise<Store[]> {
 export async function getStoreById(id: number): Promise<Store | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("store")
+    .from(TABLE_NAME)
     .select("*")
     .eq("id", id)
     .single();
@@ -45,7 +47,7 @@ export async function getStoreById(id: number): Promise<Store | null> {
 export async function createStore(store: CreateStore): Promise<Store> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("store")
+    .from(TABLE_NAME)
     .insert(store)
     .select()
     .single();
@@ -65,7 +67,7 @@ export async function updateStore(
 ): Promise<Store> {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("store")
+    .from(TABLE_NAME)
     .update(updates)
     .eq("id", id)
     .select()
@@ -82,7 +84,7 @@ export async function updateStore(
 // 删除门店
 export async function deleteStore(id: number): Promise<void> {
   const supabase = await createClient();
-  const { error } = await supabase.from("store").delete().eq("id", id);
+  const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting store:", error);
@@ -96,7 +98,7 @@ export async function isStoreNameExists(
   excludeId?: number
 ): Promise<boolean> {
   const supabase = await createClient();
-  let query = supabase.from("store").select("id").eq("name", name);
+  let query = supabase.from(TABLE_NAME).select("id").eq("name", name);
 
   if (excludeId) {
     query = query.neq("id", excludeId);
