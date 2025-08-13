@@ -6,33 +6,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import React from "react";
 
-export function SalesOverviewCards() {
-  // 模拟门店数据 - 实际使用时将从服务获取
-  const mockStores = [
-    {
-      id: 1,
-      name: "主店",
-      description: "总店",
-      totalMetrics: 8,
-      todayRecords: 8,
-    },
-    {
-      id: 2,
-      name: "分店A",
-      description: "商业区分店",
-      totalMetrics: 6,
-      todayRecords: 5,
-    },
-    {
-      id: 3,
-      name: "分店B",
-      description: "居民区分店",
-      totalMetrics: 5,
-      todayRecords: 5,
-    },
-  ];
+interface Store {
+  id: number;
+  name: string;
+  description?: string;
+  totalMetrics: number;
+  todayRecords: number;
+}
 
+interface SalesOverviewCardsProps {
+  stores: Store[];
+}
+
+export function SalesOverviewCards({ stores }: SalesOverviewCardsProps) {
   // 判断是否完成今日记录
   const isCompleted = (todayRecords: number, totalMetrics: number) => {
     return todayRecords === totalMetrics;
@@ -44,7 +32,7 @@ export function SalesOverviewCards() {
       <div>
         <h2 className="text-xl font-semibold mb-4">门店概览</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {mockStores.map((store) => (
+          {stores.map((store) => (
             <Card
               key={store.id}
               className="cursor-pointer hover:shadow-md transition-shadow"

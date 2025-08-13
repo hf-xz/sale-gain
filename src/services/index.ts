@@ -4,42 +4,43 @@ export * from "./storeService";
 export * from "./metricService";
 export * from "./recordService";
 
-// 可以在这里添加一些组合服务或工具函数
-
 /**
- * 获取门店及其指标的完整信息
+ * 获取所有门店及其指标以及最新记录的完整信息
  */
-import { getStoreById } from "./storeService";
+import { getAllStores } from "./storeService";
 import { getMetricsByStoreId } from "./metricService";
+import { getRecordByMetricAndDate } from "./recordService";
+import { Metric } from "./types";
 
-export async function getStoreWithMetrics(storeId: number) {
-  const [store, metrics] = await Promise.all([
-    getStoreById(storeId),
-    getMetricsByStoreId(storeId),
-  ]);
-
-  return {
-    store,
-    metrics,
-  };
+async function getMetricsWithTodayRecord(metrics: Metric[], today: string) {
+  return await Promise.all(
+    metrics.map(async (metric) => {
+      const todayRecord = await getRecordByMetricAndDate(metric.id, today);
+      return {
+        ...metric,
+        todayRecord,
+      };
+    })
+  );
 }
 
-/**
- * 获取指标及其最新记录
- */
-import { getMetricById } from "./metricService";
-import { getLatestRecordByMetricId, getRecordStats } from "./recordService";
+export async function getStoresWithTodayInfo() {
+  const today = new Date().toISOString().split("T")[0]; // 获取今天的日期
 
-export async function getMetricWithLatestRecord(metricId: number) {
-  const [metric, latestRecord, stats] = await Promise.all([
-    getMetricById(metricId),
-    getLatestRecordByMetricId(metricId),
-    getRecordStats(metricId),
-  ]);
+  const stores = await getAllStores();
+  const todayInfo = await Promise.all(
+    stores.map(async (store) => {
+      const metrics = await getMetricsByStoreId(store.id).then(
+        async (metrics) => {
+          return await getMetricsWithTodayRecord(metrics, today);
+        }
+      );
+      return {
+        ...store,
+        metrics: metrics || [],
+      };
+    })
+  );
 
-  return {
-    metric,
-    latestRecord,
-    stats,
-  };
+  return todayInfo;
 }
