@@ -6,7 +6,7 @@ import {
   AddStoreButton,
 } from "./components";
 
-import { getStoresWithTodayInfo } from "@/services";
+import { getStoresWithTodayInfo, getLatestRecords } from "@/services";
 
 function UnsignedContent() {
   return (
@@ -63,6 +63,21 @@ export async function HomeContent() {
     };
   });
 
+  const records = await getLatestRecords(10).then((records) =>
+    records.map((record) => ({
+      id: record.id,
+      metricName: record.metric.name,
+      storeName: record.metric.store.name,
+      value: record.value,
+      unit: record.metric.unit,
+      date: record.date,
+      time: new Date(record.created_at).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    }))
+  );
+
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto p-4">
       {/* 门店概览 */}
@@ -72,7 +87,7 @@ export async function HomeContent() {
       <QuickActionsCard />
 
       {/* 数据记录 */}
-      <SalesRecordsCard />
+      <SalesRecordsCard records={records} />
     </div>
   );
 }

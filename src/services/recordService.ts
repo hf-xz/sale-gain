@@ -276,3 +276,32 @@ export async function getRecordStats(metricId: number): Promise<{
     max,
   };
 }
+
+// record 分页接口，包含关联的 metric，以及 store 信息
+export async function getLatestRecords(limit: number, offset: number = 0) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .select(`
+      *,
+      metric:metric_id (
+        id,
+        name,
+        unit,
+        store_id,
+        store:store_id (
+          id,
+          name
+        )
+      )
+    `)
+    .order("date", { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) {
+    console.error("Error fetching latest records:", error);
+    throw new Error("Failed to fetch latest records");
+  }
+
+  return data || [];
+}

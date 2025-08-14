@@ -1,55 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function SalesRecordsCard() {
-  // 模拟最新记录数据 - 实际使用时将从服务获取
-  const mockRecords = [
-    {
-      id: 1,
-      metricName: "日销售额",
-      storeName: "主店",
-      value: 12500,
-      unit: "元",
-      date: "2025-08-13",
-      time: "14:30",
-    },
-    {
-      id: 2,
-      metricName: "客流量",
-      storeName: "分店A",
-      value: 156,
-      unit: "人",
-      date: "2025-08-13",
-      time: "14:15",
-    },
-    {
-      id: 3,
-      metricName: "平均客单价",
-      storeName: "主店",
-      value: 80.12,
-      unit: "元",
-      date: "2025-08-13",
-      time: "14:00",
-    },
-    {
-      id: 4,
-      metricName: "库存商品数",
-      storeName: "分店B",
-      value: 245,
-      unit: "件",
-      date: "2025-08-13",
-      time: "13:45",
-    },
-    {
-      id: 5,
-      metricName: "成本支出",
-      storeName: "主店",
-      value: 3200,
-      unit: "元",
-      date: "2025-08-13",
-      time: "13:30",
-    },
-  ];
+interface Record {
+  id: number;
+  metricName: string;
+  storeName: string;
+  value: number;
+  unit: string;
+  date: string;
+  time: string;
+}
 
+export function SalesRecordsCard({ records }: { records: Record[] }) {
   return (
     <Card className="h-fit">
       <CardHeader>
@@ -61,7 +22,7 @@ export function SalesRecordsCard() {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {mockRecords.slice(0, 10).map((record) => (
+          {records.slice(0, 5).map((record) => (
             <div
               key={record.id}
               className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors"
