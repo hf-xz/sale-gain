@@ -48,21 +48,6 @@ export async function HomeContent() {
 
   if (!stores || stores.length === 0) return <NoStoresContent />;
 
-  // 统计 totalMetrics 和 todayRecords
-  const storesWithCount = stores.map((store) => {
-    const totalMetrics = store.metrics.length;
-    const todayRecords = store.metrics.reduce(
-      (count, metric) => count + (metric.todayRecord ? 1 : 0),
-      0
-    );
-
-    return {
-      ...store,
-      totalMetrics,
-      todayRecords,
-    };
-  });
-
   const records = await getLatestRecords(10).then((records) =>
     records.map((record) => ({
       id: record.id,
@@ -81,10 +66,10 @@ export async function HomeContent() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto p-4">
       {/* 门店概览 */}
-      <SalesOverviewCards stores={storesWithCount} />
+      <SalesOverviewCards stores={stores} />
 
       {/* 快速操作 */}
-      <QuickActionsCard />
+      <QuickActionsCard stores={stores} />
 
       {/* 数据记录 */}
       <SalesRecordsCard records={records} />

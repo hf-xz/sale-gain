@@ -37,3 +37,11 @@ export type UpdateMetric = Partial<CreateMetric>;
 
 export type CreateRecord = Omit<Record, "id" | "created_at">;
 export type UpdateRecord = Partial<CreateRecord>;
+
+// 业务逻辑相关的类型
+export interface MetricWithTodayRecord extends Metric {
+  todayRecord: Record | null;
+}
+export interface StoreWithTodayInfo extends Store {
+  metrics: MetricWithTodayRecord[];
+}

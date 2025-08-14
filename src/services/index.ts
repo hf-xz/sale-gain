@@ -10,9 +10,12 @@ export * from "./recordService";
 import { getAllStores } from "./storeService";
 import { getMetricsByStoreId } from "./metricService";
 import { getRecordByMetricAndDate } from "./recordService";
-import { Metric } from "./types";
+import { Metric, MetricWithTodayRecord, StoreWithTodayInfo } from "./types";
 
-async function getMetricsWithTodayRecord(metrics: Metric[], today: string) {
+async function getMetricsWithTodayRecord(
+  metrics: Metric[],
+  today: string
+): Promise<MetricWithTodayRecord[]> {
   return await Promise.all(
     metrics.map(async (metric) => {
       const todayRecord = await getRecordByMetricAndDate(metric.id, today);
@@ -24,7 +27,7 @@ async function getMetricsWithTodayRecord(metrics: Metric[], today: string) {
   );
 }
 
-export async function getStoresWithTodayInfo() {
+export async function getStoresWithTodayInfo(): Promise<StoreWithTodayInfo[]> {
   const today = new Date().toISOString().split("T")[0]; // 获取今天的日期
 
   const stores = await getAllStores();
