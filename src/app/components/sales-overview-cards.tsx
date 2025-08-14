@@ -41,33 +41,35 @@ export function SalesOverviewCards({ stores }: SalesOverviewCardsProps) {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {storesWithCount.map((store) => (
-            <AddRecordButton
-              key={store.id}
-              asChild
-              stores={stores}
-              selectedStore={store}
-            >
-              <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">{store.name}</CardTitle>
-                  <CardDescription>{store.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">今日记录</span>
-                    {isCompleted(store.todayRecords, store.totalMetrics) ? (
-                      <Badge variant="outline" className="text-green-600">
-                        已完成
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-orange-600">
+            <Card key={store.id} className="hover:shadow-md transition-shadow">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">{store.name}</CardTitle>
+                <CardDescription>{store.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">今日记录</span>
+                  {isCompleted(store.todayRecords, store.totalMetrics) ? (
+                    <Badge variant="outline" className="text-green-600">
+                      已完成
+                    </Badge>
+                  ) : (
+                    <AddRecordButton
+                      asChild
+                      stores={stores}
+                      selectedStore={store}
+                    >
+                      <Badge
+                        variant="outline"
+                        className="text-orange-600 cursor-pointer "
+                      >
                         未完成 ({store.todayRecords}/{store.totalMetrics})
                       </Badge>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </AddRecordButton>
+                    </AddRecordButton>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
