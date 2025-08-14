@@ -63,7 +63,7 @@ export function SalesOverviewCards({ stores }: SalesOverviewCardsProps) {
                         variant="outline"
                         className="text-orange-600 cursor-pointer "
                       >
-                        未完成 ({store.todayRecords}/{store.totalMetrics})
+                        待添加 ({store.todayRecords}/{store.totalMetrics})
                       </Badge>
                     </AddRecordButton>
                   )}

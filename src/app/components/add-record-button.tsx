@@ -113,6 +113,11 @@ export function AddRecordButton({
             {/* 指标输入 */}
             {selectedStore && (
               <div className="space-y-4">
+                {selectedStore.metrics.length === 0 && (
+                  <p className="text-muted-foreground">
+                    该门店没有可用的指标，请先添加指标。
+                  </p>
+                )}
                 <div className="grid gap-4">
                   {selectedStore.metrics
                     .sort((a, b) => a.display_order - b.display_order)
