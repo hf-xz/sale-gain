@@ -19,7 +19,7 @@ export function QuickActionsCard({ stores }: QuickActionsCardProps) {
               <div className="flex items-center gap-3">
                 <span className="text-xl">📝</span>
                 <div>
-                  <div className="font-medium">添加记录</div>
+                  <div className="font-medium">修改记录</div>
                   <div className="text-sm text-muted-foreground">
                     为门店指标添加新的数据记录
                   </div>

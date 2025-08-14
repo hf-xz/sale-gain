@@ -30,7 +30,7 @@ interface AddRecordButtonProps extends ButtonProps {
 }
 
 export function AddRecordButton({
-  text = "添加记录",
+  text = "修改记录",
   stores,
   selectedStore: preSelectedStore, // 解构新增的 selectedStore prop
   asChild = false,
@@ -75,7 +75,7 @@ export function AddRecordButton({
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            添加记录{selectedStore ? ` - ${selectedStore.name}` : ""}
+            修改记录{selectedStore ? ` - ${selectedStore.name}` : ""}
           </DialogTitle>
         </DialogHeader>
 
